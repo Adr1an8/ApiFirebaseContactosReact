@@ -10,7 +10,6 @@ import {
 
 import firebase from "../database/firebase";
 
-
 const AddUserScreen = (props) => {
   const initalState = {
     name: "",
@@ -25,13 +24,15 @@ const AddUserScreen = (props) => {
   if(props.route.params){
     uriImage =  props.route.params.uriImage;
   }
-  
+  console.log(uriImage);
 
   const [state, setState] = useState(initalState);
 
   const handleChangeText = (value, name) => {
     setState({ ...state, [name]: value });
   };
+
+  
 
   const saveNewUser = async () => {
     if (state.name === "") {
@@ -45,7 +46,6 @@ const AddUserScreen = (props) => {
           phone: state.phone,
           image: uriImage,
         });
-
         props.navigation.navigate("UsersList");
       } catch (error) {
         console.log(error)

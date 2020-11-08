@@ -18,14 +18,7 @@ const UserDetailScreen = (props) => {
     name: "",
     email: "",
     phone: "",
-    image: "https://cdn.icon-icons.com/icons2/1674/PNG/512/person_110935.png",
   };
-
-  let uriImage = "https://cdn.icon-icons.com/icons2/1674/PNG/512/person_110935.png";
-
-  if(props.route.params){
-    uriImage =  props.route.params.uriImage;
-  }
 
   const [user, setUser] = useState(initialState);
   const [loading, setLoading] = useState(true);
@@ -64,18 +57,6 @@ const UserDetailScreen = (props) => {
         cancelable: true,
       }
     );
-  };
-
-  const updateUser = async () => {
-    const userRef = firebase.db.collection("users").doc(user.id);
-    await userRef.set({
-      name: user.name,
-      email: user.email,
-      phone: user.phone,
-      image: uriImage,
-    });
-    setUser(initialState);
-    props.navigation.navigate("UsersList");
   };
 
   useEffect(() => {
@@ -119,24 +100,12 @@ const UserDetailScreen = (props) => {
           onChangeText={(value) => handleTextChange(value, "phone")}
         />
       </View>
-      <View style={styles.button}>
-        <Button title="Take Picture" onPress={() => props.navigation.navigate("UserPicture") } />
-      </View>
-      <View>
-        <Image 
-            style={{ width: 100, height:100, borderRadius: 20}}
-            source={{ uri : user.image }}
-        />
-      </View>
       <View style={styles.btn}>
         <Button
           title="Delete"
           onPress={() => openConfirmationAlert()}
           color="#E37399"
         />
-      </View>
-      <View>
-        <Button title="Update" onPress={() => updateUser()} color="#19AC52" />
       </View>
     </ScrollView>
   );

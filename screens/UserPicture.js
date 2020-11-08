@@ -4,6 +4,7 @@ import { Camera } from 'expo-camera';
 import { FontAwesome } from '@expo/vector-icons';
 import * as Permissions from 'expo-permissions';
 import * as MediaLibrary from 'expo-media-library';
+import * as firebase from 'firebase';
 
 const UserPicture = (props) => {
     const camRef = useRef(null);
@@ -32,7 +33,19 @@ const UserPicture = (props) => {
     if(hasPermission === false){
       return <Text> Acceso denegado! </Text>;
     }
-  
+
+    // async function uploadImage(uri, imageName) {
+    //   const response = await fetch(uri);
+    //   const blob = await response.blob();
+
+      
+
+    //   var ref = firebase.storage().ref().child("images/"+response);
+    //   props.navigation.navigate("CreateUserScreen");
+    //   //,{uriImage:ref}
+    //   return ref.put(blob);
+    // }
+
     async function takePicture() {
       if(camRef){
         const data = await camRef.current.takePictureAsync();
@@ -43,10 +56,11 @@ const UserPicture = (props) => {
     }
   
     async function savePicture(){
+      // const upload = uploadImage(capturePhoto,"Prueba");
       const asset = await MediaLibrary.createAssetAsync(capturePhoto)
       .then(() => {
-        alert('Guardado con exito!');
-        props.navigation.goBack({uriImage:capturePhoto});
+        alert('Guardado y subido con exito!');
+        props.navigation.navigate("CreateUserScreen",{uriImage:capturePhoto});
       })
       .catch(error => {
         console.log('err',error);
